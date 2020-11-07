@@ -79,3 +79,30 @@ brief:  ENGINE_8_BRIEF
 brief2: ENGINE_8_BRIEF2
 detail: ENGINE_8_DETAIL
 
+[tech]
+seq:    9
+name:   ENGINE_9_NAME
+item:   ENGINE_9_ITEM
+item2:  ENGINE_9_ITEM2
+brief:  ENGINE_9_BRIEF
+brief2: ENGINE_9_BRIEF2
+detail: ENGINE_9_DETAIL
+
+[tech]
+seq:    10
+name:   ENGINE_10_NAME
+item:   ENGINE_10_ITEM
+item2:  ENGINE_10_ITEM2
+brief:  ENGINE_10_BRIEF
+brief2: ENGINE_10_BRIEF2
+detail: ENGINE_10_DETAIL
+
+[tech]
+seq:    11
+name:   ENGINE_11_NAME
+item:   ENGINE_11_ITEM
+item2:  ENGINE_11_ITEM2
+brief:  ENGINE_11_BRIEF
+brief2: ENGINE_11_BRIEF2
+detail: ENGINE_11_DETAIL
+

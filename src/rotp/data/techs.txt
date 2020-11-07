@@ -210,15 +210,15 @@ tech: 46, ShipInertial,          1, 0, FORCEFLD.BMP,
 tech: 48, EngineWarp,            8, 0, ENGINE.BMP,
 tech: 50, Displacement,          0, 0, DISPLACE.BMP,
 tech: 55, FuturePropulsion,      0, 0, ENGINE.BMP,
-tech: 60, FuturePropulsion,      1, 0, ENGINE.BMP,
+tech: 60, EngineWarp,            9, 0, ENGINE.BMP,
 tech: 65, FuturePropulsion,      2, 0, ENGINE.BMP,
 tech: 70, FuturePropulsion,      3, 0, ENGINE.BMP,
 tech: 75, FuturePropulsion,      4, 0, ENGINE.BMP,
-tech: 80, FuturePropulsion,      5, 0, ENGINE.BMP,
+tech: 80, EngineWarp,           10, 0, ENGINE.BMP,
 tech: 85, FuturePropulsion,      6, 0, ENGINE.BMP,
 tech: 90, FuturePropulsion,      7, 0, ENGINE.BMP,
 tech: 95, FuturePropulsion,      8, 0, ENGINE.BMP,
-tech:100, FuturePropulsion,      9, 0, ENGINE.BMP,
+tech:100, EngineWarp,           11, 0, ENGINE.BMP,
 
 //WEAPON TECHS
 cat:  5

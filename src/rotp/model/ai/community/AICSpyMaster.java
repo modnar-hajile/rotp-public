@@ -45,9 +45,9 @@ public class AICSpyMaster implements Base, SpyMaster {
             if ((cv != null) && cv.embassy().contact()) {
                 alone = false;
                 if (cv.embassy().anyWar())
-                    paranoia += 2;
+                    paranoia += 3; // modnar: more internal security paranoia
                 if (cv.embassy().noTreaty())
-                    paranoia++;
+                    paranoia += 2; // modnar: more internal security paranoia
             }
         }
         if ((paranoia == 0) && !alone)

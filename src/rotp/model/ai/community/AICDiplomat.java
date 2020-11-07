@@ -50,6 +50,7 @@ import rotp.model.incidents.TechnologyAidIncident;
 import rotp.model.incidents.TrespassingIncident;
 import rotp.model.ships.ShipDesign;
 import rotp.model.tech.Tech;
+import rotp.ui.UserPreferences;
 import rotp.ui.diplomacy.DialogueManager;
 import rotp.ui.diplomacy.DiplomacyTechOfferMenu;
 import rotp.ui.diplomacy.DiplomaticCounterReply;
@@ -167,7 +168,14 @@ public class AICDiplomat implements Base, Diplomat {
     //  EXCHANGE TECHNOLOGY
     //-----------------------------------
     @Override
-    public boolean canExchangeTechnology(Empire e)         { return diplomats(id(e)) && !empire.atWarWith(id(e)) && empire.inEconomicRange(id(e)) && !empire.viewForEmpire(id(e)).spies().unknownTechs().isEmpty(); }
+	 // modnar: add option from UserPreferences to turn tech trading off, UserPreferences.techTrade
+	 // modnar: possibly also add restrict tech trading to only NAP and Alliance (techPact) ???
+    public boolean canExchangeTechnology(Empire e) {
+		EmpireView v = empire.viewForEmpire(e);
+		boolean techPact = (v.embassy().alliance() || v.embassy().pact()); // modnar: don't add in yet
+		
+		return diplomats(id(e)) && !empire.atWarWith(id(e)) && empire.inEconomicRange(id(e)) && !empire.viewForEmpire(id(e)).spies().unknownTechs().isEmpty() && UserPreferences.techTrade();
+		}
 
     @Override
     public DiplomaticReply receiveRequestTech(Empire diplomat, Tech tech) {
@@ -242,15 +250,16 @@ public class AICDiplomat implements Base, Diplomat {
 
         // what is this times the value of the request tech?dec
         float maxTechValue = techDealValue(view) * tech.tradeValue(empire);
-
+		
         // what are all of the unknown techs that we could ask for
         List<Tech> allTechs = view.spies().unknownTechs();
 
         // include only those techs which have a research value >= the trade value
         // of the requestedTech we would be trading away
+		// modnar: add condition to also check for equivalent tech quintile
         List<Tech> worthyTechs = new ArrayList<>(allTechs.size());
         for (Tech t: allTechs) {
-            if (t.baseValue(empire) >= maxTechValue)
+            if ((t.baseValue(empire) >= maxTechValue) && (t.quintile() == tech.quintile()))
                 worthyTechs.add(t);
         }
 

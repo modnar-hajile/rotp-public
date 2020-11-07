@@ -27,6 +27,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -290,6 +294,50 @@ public final class GameSession implements Base, Serializable {
                 log("Autosaving pre-turn");
                 instance.saveRecentSession(false);
                 
+				/*
+				// modnar: private logging
+				String LogPath = Rotp.jarPath();
+				File TestLogFile = new File(LogPath, "TestLogFile.txt");
+				if (galaxy.currentTurn() % 5 == 0) { // log every 5 turns
+					PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(TestLogFile, true)));
+					out.println("Turn: "+ str(galaxy.currentTurn()));
+					for (Empire e: galaxy().empires()) {
+						StarSystem sys1 = e.mostPopulousSystemForCiv(e);
+						float relationToPlayer = 0.0f;
+						if (!(e==player())) {
+							EmpireView pl = e.viewForEmpire(player());
+							relationToPlayer = pl.embassy().relations();
+						}
+						
+						out.println(String.format("%10s", e.raceName()) 
+						+ String.format("%6d", e.numColonizedSystems()) 
+						+ String.format("%12.2f", e.totalPlanetaryPopulation()) 
+						+ String.format("%12.2f", e.totalPlanetaryProduction()) 
+						+ String.format("%12.0f", e.totalFleetSize()) 
+						// + String.format("%12.2f", e.totalShipMaintenanceCost())
+						+ String.format("%10.2f", 100*e.shipMaintCostPerBC()) + "%" 
+						+ String.format("%10.2f", 100*e.totalMissileBaseCostPct()) + "%" 
+						+ String.format("%12.2f", e.totalPlanetaryResearch()) 
+						+ String.format("%8.2f", e.tech().avgTechLevel())
+						+ String.format("%8.2f", relationToPlayer)
+						+ String.format("%10.2f", 100*e.totalSecurityCostPct()) + "%" 
+						/*
+						+ String.format("reserve %12.2f", e.totalReserve())
+						+ String.format("trade %12.2f", e.netTradeIncome())
+						+ String.format("%10s", sys1.name())
+						+ String.format("%8.2f", sys1.colony().industry().factories())
+						+ String.format("%8.2f", sys1.colony().reserveIncome())
+						+ String.format("%8.2f", sys1.colony().totalIncome())
+						+ String.format("%8.2f", sys1.colony().production())
+						+ String.format("%8.2f", sys1.colony().defense().bases())
+						////
+						);
+					}
+					out.close();
+				}
+				// modnar: private logging
+				*/
+				
                 long startMs = timeMs();
                 systemsToAllocate().clear();
                 systemsScouted().clear();
@@ -789,5 +837,25 @@ public final class GameSession implements Base, Serializable {
             t.setPriority(Thread.MIN_PRIORITY);
             return t;
         };
+    }
+
+    private GovernorOptions governorOptions = new GovernorOptions();
+    @Deprecated
+    private GovernorOptions2 governorOptions2 = new GovernorOptions2();
+
+    public GovernorOptions getGovernorOptions() {
+        // can happen on deserialized stock save game
+        if (governorOptions == null) {
+            governorOptions = new GovernorOptions();
+        }
+        return governorOptions;
+    }
+    @Deprecated
+    public GovernorOptions2 getGovernorOptions2() {
+        // can happen on deserialized stock save game
+        if (governorOptions2 == null) {
+            governorOptions2 = new GovernorOptions2();
+        }
+        return governorOptions2;
     }
 }

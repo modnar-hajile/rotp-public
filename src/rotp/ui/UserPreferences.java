@@ -43,6 +43,12 @@ public class UserPreferences {
     private static boolean playSounds = true;
     private static boolean displayYear = true;
     private static boolean textures = true;
+	private static boolean techTrade = true; // modnar: add option to turn tech trading off
+	private static boolean alwaysStarGates = false; // modnar: add option to always have Star Gates tech
+	private static boolean extraFertile = false; // modnar: add option to generate more hospitable planets
+	private static boolean extraRich = false; // modnar: add option to generate more Rich planets
+	private static boolean extraPoor = false; // modnar: add option to generate more Poor planets
+	private static boolean extraArtifact = false; // modnar: add option to generate more Artifact planets
     private static float uiTexturePct = 0.20f;
     private static int screenSizePct = 93;
     private static final HashMap<String, String> raceNames = new HashMap<>();
@@ -59,6 +65,14 @@ public class UserPreferences {
     public static void toggleMusic()        { playMusic = !playMusic; save();  }
     public static boolean textures()        { return textures; }
     public static void toggleTextures()     { textures = !textures; save();  }
+	
+	public static boolean techTrade()        { return techTrade; } // modnar: add option to turn tech trading off
+	public static boolean alwaysStarGates()  { return alwaysStarGates; } // modnar: add option to always have Star Gates tech
+	public static boolean extraFertile()     { return extraFertile; } // modnar: add option to generate more hospitable planets
+	public static boolean extraRich()        { return extraRich; } // modnar: add option to generate more Rich planets
+	public static boolean extraPoor()        { return extraPoor; } // modnar: add option to generate more Poor planets
+	public static boolean extraArtifact()    { return extraArtifact; } // modnar: add option to generate more Artifact planets
+	
     public static int screenSizePct()       { return screenSizePct; }
     public static void screenSizePct(int i) { setScreenSizePct(i); }
 
@@ -107,6 +121,12 @@ public class UserPreferences {
             out.println(keyFormat("SCREEN_SIZE_PCT")+ screenSizePct());
             out.println(keyFormat("UI_TEXTURES")+ yesOrNo(textures));
             out.println(keyFormat("UI_TEXTURE_LEVEL")+(int) (uiTexturePct()*100));
+			out.println(keyFormat("TECH_TRADE")+ yesOrNo(techTrade)); // modnar: add option to turn tech trading off
+			out.println(keyFormat("ALWAYS_STAR_GATES")+ yesOrNo(alwaysStarGates)); // modnar: add option to always have Star Gates tech
+			out.println(keyFormat("EXTRA_FERTILE")+ yesOrNo(extraFertile)); // modnar: add option to generate more hospitable planets
+			out.println(keyFormat("EXTRA_RICH")+ yesOrNo(extraRich)); // modnar: add option to generate more Rich planets
+			out.println(keyFormat("EXTRA_POOR")+ yesOrNo(extraPoor)); // modnar: add option to generate more Poor planets
+			out.println(keyFormat("EXTRA_ARTIFACT")+ yesOrNo(extraArtifact)); // modnar: add option to generate more Artifact planets
             out.println(keyFormat("LANGUAGE")+ languageDir());
             for (String raceKey: raceKeys) 
               out.println(keyFormat(raceKey)+raceNames.get(raceKey));
@@ -142,6 +162,12 @@ public class UserPreferences {
             case "SCREEN_SIZE_PCT": screenSizePct(Integer.valueOf(val)); return;
             case "UI_TEXTURES":  textures = yesOrNo(val); return;
             case "UI_TEXTURE_LEVEL": uiTexturePct(Integer.valueOf(val)); return;
+			case "TECH_TRADE":   techTrade = yesOrNo(val); return; // modnar: add option to turn tech trading off
+			case "ALWAYS_STAR_GATES": alwaysStarGates = yesOrNo(val); return; // modnar: add option to always have Star Gates tech
+			case "EXTRA_FERTILE":   extraFertile = yesOrNo(val); return; // modnar: add option to generate more hospitable planets
+			case "EXTRA_RICH":   extraRich = yesOrNo(val); return; // modnar: add option to generate more Rich planets
+			case "EXTRA_POOR":   extraPoor = yesOrNo(val); return; // modnar: add option to generate more Poor planets
+			case "EXTRA_ARTIFACT":   extraArtifact = yesOrNo(val); return; // modnar: add option to generate more Artifact planets
             case "LANGUAGE":     selectLanguage(val); return;
             default:
                 raceNames.put(key, val); break;

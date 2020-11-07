@@ -38,10 +38,10 @@ public class Rotp {
     private static final int MB = 1048576;
     public static int IMG_W = 1229;
     public static int IMG_H = 768;
-    public static String jarFileName = "Remnants.jar";
+    public static String jarFileName = "RotP-1.13.5_modnar_MOD10.jar";
     private static String jarPath;
     private static JFrame frame;
-    public static String releaseId = "Beta 1.13b";
+    public static String releaseId = "Beta 1.13.5 modnar_MOD10";
     public static long startMs = System.currentTimeMillis();
     public static long maxHeapMemory = Runtime.getRuntime().maxMemory() / 1048576;
     public static long maxUsedMemory;
@@ -72,8 +72,11 @@ public class Rotp {
 
         setFrameSize();
 
-        if (reloadRecentSave) 
+        if (reloadRecentSave) {
+            RotPUI.instance().unregisterOnSession(GameSession.instance());
             GameSession.instance().loadRecentSession(false);
+            RotPUI.instance().registerOnSession(GameSession.instance());
+        }
         frame.setResizable(false);
         frame.setVisible(true);
     }

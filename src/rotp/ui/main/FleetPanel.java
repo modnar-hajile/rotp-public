@@ -468,8 +468,9 @@ public class FleetPanel extends BasePanel implements MapSpriteViewer {
             }
             else {
                 g.drawImage(pl.sv.starBackground(this), 0, 0, null);
-                drawStar(g, sys.starType(), s80, w/3, s70);
-                sys.planet().draw(g, w, h, s20, s70, s80, 45);
+				//modnar: increase planet size, move star
+                drawStar(g, sys.starType(), s80, w*3/4, s60);
+                sys.planet().draw(g, w, h, s5, s70, s80*2, 45);
             }
             // draw ship image
             Image shipImg = fl.empire().race().transport();

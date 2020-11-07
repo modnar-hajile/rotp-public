@@ -495,11 +495,18 @@ public class StarSystem implements Base, Sprite, IMappedObject, Serializable {
             drawBanner(g2, flagColor, Color.white, x0, y0);
 
         // draw star name
+		// modnar: add in population and factory count on new line
+		// TODO: center align
         Rectangle box = nameBox();
         box.width = 0;
         box.height = 0;
         if (map.showSystemNames()) {
-            String s1 = map.parent().systemLabel(this);
+            String s0 = map.parent().systemLabel(this); // dummy s0 string
+			String s1 = map.parent().systemLabel(this);
+			// modnar: if star is colonized by the player, add in population and factory count
+			if ( pl.sv.isColonized(this.id) & (pl.sv.population(this.id) != 0)) {
+				s1 = s1+"\nP"+ String.valueOf(pl.sv.population(this.id))+"   F"+ String.valueOf(pl.sv.factories(this.id));
+			}
             String s2 = map.parent().systemLabel2(this);
             if (s2.isEmpty())
                 s2 = name2(map);
@@ -508,12 +515,23 @@ public class StarSystem implements Base, Sprite, IMappedObject, Serializable {
                 int fontSize = fontSize(map);
                 g2.setFont(narrowFont(fontSize));
                 g2.setColor(map.parent().systemLabelColor(this));
-                int sw = g2.getFontMetrics().stringWidth(s1);
+                int sw = g2.getFontMetrics().stringWidth(s0); // use s0 width
+				//int sw = g2.getFontMetrics().stringWidth(s1);
                 int boxSize = drewSelectionBox ? r0+s7 : r0;
                 int yAdj = scaled(fontSize)+boxSize;
                 if (!s1.isEmpty()) {
-                    g2.drawString(s1, x0-(sw/2), y0+yAdj);
-                    y0 += scaled(fontSize-2);
+					
+					// modnar: split star name from pop+fact into newline
+					for (String line : s1.split("\n")) {
+						g2.drawString(line, x0-(sw/2), y0+yAdj);
+						y0 += scaled((int) Math.ceil(0.6*fontSize));
+						// modnar: smaller font for population and factory count
+						g2.setFont(narrowFont((int) Math.ceil(0.6*fontSize)));
+					}
+					g2.setFont(narrowFont(fontSize));
+					
+                    //g2.drawString(s1, x0-(sw/2), y0+yAdj);
+                    //y0 += scaled(fontSize-2);
                 }
                 if (!s2.isEmpty()) {
                     g2.setFont(narrowFont(fontSize-2));

@@ -30,7 +30,8 @@ public final class ShipManeuver extends ShipComponent {
     public TechEngineWarp tech()      { return (TechEngineWarp) super.tech(); }
     @Override
     public String name()              { return tech().item2(); }
-    public int level()                { return tech().warp(); }
+	// modnar: three new ship engines added, but limit max beam/missile def bonus to be 9
+    public int level()                { return Math.min(9, tech().warp()); }
     @Override
     public float power(ShipDesign d) { return tech().baseManeuverPower(d.size(), d.engine().warp()); }
     @Override
@@ -41,7 +42,8 @@ public final class ShipManeuver extends ShipComponent {
     public float size(ShipDesign d)  { return 0; }
     @Override
     public float cost(ShipDesign d)  { return (enginesRequired(d) * d.engine().cost(d)); }
-    public int combatSpeed()          { return tech() == null ? 0 : (int) ((tech().warp() + 2) / 2); }
+	// modnar: three new ship engines added, but limit max combat speed to be 5
+    public int combatSpeed()          { return tech() == null ? 0 : (int) Math.min(5, ((tech().warp() + 2) / 2)); }
     @Override
     public String fieldValue(int n, ShipDesign d, int bank) {
         switch(n) {

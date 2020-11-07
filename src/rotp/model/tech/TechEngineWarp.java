@@ -21,7 +21,7 @@ import rotp.model.ships.ShipEngine;
 import rotp.model.ships.ShipManeuver;
 
 public final class TechEngineWarp extends Tech {
-    public static int MAX_SPEED = 9;
+    public static int MAX_SPEED = 20; // modnar: increase max speed with three new ship engines, originally 9
     private int warp;
     public String shName;
 
@@ -50,6 +50,9 @@ public final class TechEngineWarp extends Tech {
             case 6: warp = 7; break;
             case 7: warp = 8; break;
             case 8: warp = 9; break;
+			case 9: warp = 12; break; // modnar: add three new ship engines, warp 12/15/20
+            case 10: warp = 15; break;
+            case 11: warp = 20; break;
         }
     }
     public int warp()                    { return (int) (session().propulsionBonus() * warp); }
@@ -92,6 +95,20 @@ public final class TechEngineWarp extends Tech {
     }
     @Override
     public float baseCost() {
+		switch(warp) {
+            case 1: return warp * 2;
+            case 2: return warp * 2;
+            case 3: return warp * 2;
+            case 4: return warp * 2;
+            case 5: return warp * 2;
+            case 6: return warp * 2;
+            case 7: return warp * 2;
+            case 8: return warp * 2;
+            case 9: return warp * 2;
+			case 12: return warp * 4; // modnar: balance new ship engines to be much more costly
+			case 15: return warp * 6;
+			case 20: return warp * 10;
+        }
         return warp * 2;
     }
     public float powerOutput() { return warp * 10; }
@@ -107,6 +124,9 @@ public final class TechEngineWarp extends Tech {
             case 7: return 44;
             case 8: return 47;
             case 9: return 50;
+			case 12: return 100; // modnar: balance new ship engines to be much larger
+			case 15: return 120;
+			case 20: return 150;
         }
         return (23 + (warp * 3));
     }

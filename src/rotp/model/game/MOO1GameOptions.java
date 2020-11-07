@@ -47,6 +47,7 @@ import rotp.model.galaxy.StarType;
 import rotp.model.planet.Planet;
 import rotp.model.planet.PlanetType;
 import rotp.ui.game.SetupGalaxyUI;
+import rotp.ui.UserPreferences;
 import rotp.util.Base;
 
 public class MOO1GameOptions implements Base, IGameOptions, Serializable {
@@ -61,6 +62,11 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
 	// modnar: new map option
 	// selectedMapOption, setMapOption
 	private String selectedMapOption;
+	// modnar: add planet distribution options from UserPreferences
+	private boolean extraFertile = UserPreferences.extraFertile();
+	private boolean extraRich = UserPreferences.extraRich();
+	private boolean extraPoor = UserPreferences.extraPoor();
+	private boolean extraArtifact = UserPreferences.extraArtifact();
     private String selectedGameDifficulty;
     private int selectedNumberOpponents;
     private boolean communityAI = false;
@@ -150,7 +156,8 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
     }
     @Override
     public int maximumOpponentsOptions() {
-        int maxEmpires = min(numberStarSystems()/8, colors.size(), MAX_OPPONENT_TYPE*startingRaceOptions().size());
+		// modnar: change maxEmpires to be ~12 stars/empire, original ~8 stars/empire
+        int maxEmpires = min(numberStarSystems()/12, colors.size(), MAX_OPPONENT_TYPE*startingRaceOptions().size());
         int maxOpponents = min(SetupGalaxyUI.MAX_DISPLAY_OPPS);
         return min(maxOpponents, maxEmpires-1);
     }
@@ -287,7 +294,11 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
         }
         */
         int n = this.numberStarSystems();
-        return roll(n/50, n/25);
+		// modnar: disable nebula formation with the disableRandomEvents map option
+		if (disableRandomEvents()){
+			return 0;
+		}
+        return roll(n/50, n/25); // modnar: change nebula number for testing
     }
     @Override
     public float researchCostBase() {
@@ -305,15 +316,21 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
     }
     @Override
     public String randomStarType() {
+		// modnar: change star type distribution from UserPreferences, extraFertile
+		// 30% Red, 25% Orange, 30% Yellow, 5% Blue, 5% White, 5% Purple
+		float rFertile = 0.0f;
+		if (extraFertile) {
+			rFertile = 0.05f;
+		}
         // distribution per MOO1 Official Strategy Guide
         float r = random();
         if (r <= .30)
             return StarType.RED;
         else if (r <= .55)
             return StarType.ORANGE;
-        else if (r <= .70)
+        else if (r <= .70 + 3*rFertile) // modnar: extraFertile
             return StarType.YELLOW;
-        else if (r <= .85)
+        else if (r <= .85 + rFertile) // modnar: extraFertile
             return StarType.BLUE;
         else if (r <= .95)
             return StarType.WHITE;
@@ -583,7 +600,12 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
             case PlanetType.OCEAN:
             case PlanetType.JUNGLE:
             case PlanetType.TERRAN:
-                if (random() < .083333)
+			    // modnar: 50% more Fertile planets according to UserPreferences, extraFertile
+		        float rFertile = 1.0f;
+		        if (extraFertile) {
+		        	rFertile = 1.5f;
+		        }
+                if (random() < .083333 * rFertile)
                     p.makeEnvironmentFertile();  // become fertile
                 break;
         }
@@ -623,10 +645,15 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
             default:
                 throw new RuntimeException(concat("Invalid star type for options: ", s.starType().key()));
         }
+		// modnar: 50% more Poor planets according to UserPreferences, extraPoor
+		float rPoor = 1.0f;
+		if (extraPoor) {
+			rPoor = 1.5f;
+		}
         float r = random();
-        if (r <= r1)
+        if (r <= r1 * rPoor)
             p.setResourceUltraPoor();
-        else if (r <= r2)
+        else if (r <= r2 * rPoor)
             p.setResourcePoor();
     }
     private void checkForRichResources(Planet p, StarSystem s) {
@@ -676,20 +703,30 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
                 throw new RuntimeException(concat("Invalid star type for options: ", s.starType().key()));
         }
 
-        float r = random();
-        if (r <= r1)
+        // modnar: 50% more Rich planets according to UserPreferences, extraRich
+		float rRich = 1.0f;
+		if (extraRich) {
+			rRich = 1.5f;
+		}
+		float r = random();
+        if (r <= r1 * rRich)
             p.setResourceRich();
-        else if (r <= r2)
+        else if (r <= r2 * rRich)
             p.setResourceUltraRich();
     }
     private void checkForArtifacts(Planet p, StarSystem s) {
+		// modnar: 50% more Artifact planets according to UserPreferences, extraArtifact
+		float rArtifact = 1.0f;
+		if (extraArtifact) {
+			rArtifact = 1.5f;
+		}
         switch(p.type().key()) {
             case PlanetType.STEPPE:
             case PlanetType.ARID:
             case PlanetType.OCEAN:
             case PlanetType.JUNGLE:
             case PlanetType.TERRAN:
-                if (random() <= 0.10)
+                if (random() <= 0.10 * rArtifact) // modnar: change artifact ratio for testing, original 0.10
                     p.setArtifact();
         }
     }

@@ -501,6 +501,28 @@ ENGINE_8_ITEM2   | Class 9
 ENGINE_8_BRIEF   | Warp 9  Def %1
 ENGINE_8_BRIEF2  | Combat Speed %1
 
+// modnar: add three new ship engines
+ENGINE_9_NAME    | Future Drive I
+ENGINE_9_DETAIL  | Moves ships at Warp 12, and allows a maximum maneuverability of class IX in combat.
+ENGINE_9_ITEM    | Future-I
+ENGINE_9_ITEM2   | Class 9
+ENGINE_9_BRIEF   | Warp 12  Def %1
+ENGINE_9_BRIEF2  | Combat Speed %1
+
+ENGINE_10_NAME    | Future Drive II
+ENGINE_10_DETAIL  | Moves ships at Warp 15, and allows a maximum maneuverability of class IX in combat.
+ENGINE_10_ITEM    | Future-II
+ENGINE_10_ITEM2   | Class 9
+ENGINE_10_BRIEF   | Warp 15  Def %1
+ENGINE_10_BRIEF2  | Combat Speed %1
+
+ENGINE_11_NAME    | Future Drive III
+ENGINE_11_DETAIL  | Moves ships at Warp 20, and allows a maximum maneuverability of class IX in combat.
+ENGINE_11_ITEM    | Future-III
+ENGINE_11_ITEM2   | Class 9
+ENGINE_11_BRIEF   | Warp 20  Def %1
+ENGINE_11_BRIEF2  | Combat Speed %1
+
 
 //
 // Fuel Range techs

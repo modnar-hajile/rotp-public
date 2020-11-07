@@ -42,7 +42,19 @@ public class RandomEventSpaceCrystal implements Base, Serializable, RandomEvent 
     @Override
     public boolean repeatable()    		{ return false; }
     @Override
-    public int minimumTurn()                    { return RandomEvents.START_TURN + 50; }
+    public int minimumTurn() {
+		// modnar: change when the Space Monsters can show up based on difficulty
+		switch(options().selectedGameDifficulty()) {
+            case "SETUP_DIFFICULTY_EASIEST": return RandomEvents.START_TURN + 150;
+            case "SETUP_DIFFICULTY_EASIER":  return RandomEvents.START_TURN + 125;
+            case "SETUP_DIFFICULTY_EASY":    return RandomEvents.START_TURN + 110;
+			case "SETUP_DIFFICULTY_NORMAL":  return RandomEvents.START_TURN + 100;
+            case "SETUP_DIFFICULTY_HARD":    return RandomEvents.START_TURN + 90;
+            case "SETUP_DIFFICULTY_HARDER":  return RandomEvents.START_TURN + 75;
+            case "SETUP_DIFFICULTY_HARDEST": return RandomEvents.START_TURN + 50;
+            default: return RandomEvents.START_TURN + 100;
+        }
+	}
     @Override
     public String notificationText()    {
         String s1 = text("EVENT_SPACE_CRYSTAL");

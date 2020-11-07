@@ -239,6 +239,9 @@ public class RotPUI extends BasePanel implements ActionListener, KeyListener, Ga
         gameSession.removeGameListener(this);
         gameSession.addGameListener(this);
     }
+    public final void unregisterOnSession(GameSession gameSession) {
+        gameSession.removeGameListener(this);
+    }
     @Override
     public void clearAdvice() {
         RotPUI.this.mainUI().clearAdvice();
@@ -372,10 +375,15 @@ public class RotPUI extends BasePanel implements ActionListener, KeyListener, Ga
         session().waitUntilNextTurnCanProceed();
     }
     public void promptForBombardment(int sysId, ShipFleet fl) {
-        session().pauseNextTurnProcessing("Show Bombard Prompt");
-        mainUI().showBombardmentPrompt(sysId, fl);
-        selectMainPanel();
-        session().waitUntilNextTurnCanProceed();
+        try {
+            drawNextTurnNotice = false;
+            session().pauseNextTurnProcessing("Show Bombard Prompt");
+            mainUI().showBombardmentPrompt(sysId, fl);
+            selectMainPanel();
+            session().waitUntilNextTurnCanProceed();
+        } finally {
+            drawNextTurnNotice = true;
+        }
     }
     public void promptForShipCombat(ShipCombatManager mgr) {
         try {
