@@ -40,7 +40,7 @@ import rotp.ui.RotPUI;
 public final class SetupRaceUI extends BasePanel implements MouseListener, MouseMotionListener {
     private static final long serialVersionUID = 1L;
     static final int MAX_RACES = 10;
-    int MAX_COLORS = 10;
+    int MAX_COLORS = 16; // modnar: add new colors
     int FIELD_W;
     int FIELD_H;
     BufferedImage backImg;
@@ -407,17 +407,17 @@ public final class SetupRaceUI extends BasePanel implements MouseListener, Mouse
         // draw color buttons on right panel
         int xC = scaled(830);
         int yC = scaled(550);
-        int wC = s25;
+        int wC = s18; // modnar: add new colors, change color box sizes
         int hC = s15;
         for (int i=0;i<MAX_COLORS;i++) {
             int yC1 = i%2 == 0 ? yC : yC+hC+s5;
             Color c = options().color(i);
-            Color c0 = new Color(c.getRed(), c.getGreen(), c.getBlue(), 128);
+            Color c0 = new Color(c.getRed(), c.getGreen(), c.getBlue(), 160); // modnar: less transparent unselected color
             g.setColor(c0);
             g.fillRect(xC, yC1, wC, hC);
             colorBox[i].setBounds(xC, yC1, wC, hC);
             if (i%2 == 1)
-                xC += (wC+s10);
+                xC += (wC+s5); // modnar: add new colors, less separation between color boxes
         }
 
         // draw left button

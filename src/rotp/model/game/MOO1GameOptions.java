@@ -64,6 +64,7 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
 	private String selectedMapOption;
 	// modnar: add planet distribution options from UserPreferences
 	private boolean extraFertile = UserPreferences.extraFertile();
+	private boolean extraHostile = UserPreferences.extraHostile();
 	private boolean extraRich = UserPreferences.extraRich();
 	private boolean extraPoor = UserPreferences.extraPoor();
 	private boolean extraArtifact = UserPreferences.extraArtifact();
@@ -89,7 +90,7 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
     @Override
     public int numPlayers()                      { return 1; }
     @Override
-    public int numColors()                       { return 10; }
+    public int numColors()                       { return 10; } // modnar: added new colors, but this value should stay == numRaces
     @Override
     public NewPlayer selectedPlayer()            { return player; }
     @Override
@@ -316,23 +317,39 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
     }
     @Override
     public String randomStarType() {
-		// modnar: change star type distribution from UserPreferences, extraFertile
-		// 30% Red, 25% Orange, 30% Yellow, 5% Blue, 5% White, 5% Purple
-		float rFertile = 0.0f;
-		if (extraFertile) {
-			rFertile = 0.05f;
+		// modnar: change star type distribution from UserPreferences
+		// Default: 30% Red, 25% Orange, 15% Yellow, 15% Blue, 10% White, 5% Purple
+		// extraFertile: 25% Red, 30% Orange, 30% Yellow, 5% Blue, 5% White, 5% Purple
+		// extraHostile: 20% Red, 15% Orange, 10% Yellow, 20% Blue, 25% White, 10% Purple
+		// extraFertile && extraHostile: 15% Red, 20% Orange, 30% Yellow, 10% Blue, 10% White, 15% Purple
+		float[] StarTypePcts;
+		float[] DefaultPcts = { 0.30f, 0.55f, 0.70f, 0.85f, 0.95f }; // ~56% chance non-hostile
+		float[] FertilePcts = { 0.25f, 0.55f, 0.85f, 0.90f, 0.95f }; // ~64.5% chance non-hostile
+		float[] HostilePcts = { 0.20f, 0.35f, 0.45f, 0.65f, 0.90f }; // ~45.5% chance non-hostile
+		float[] BothPcts =    { 0.15f, 0.35f, 0.65f, 0.75f, 0.85f }; // ~55% chance non-hostile
+		
+		StarTypePcts = DefaultPcts;
+		if (extraFertile && !extraHostile) {
+			StarTypePcts = FertilePcts;
+		}
+		if (!extraFertile && extraHostile) {
+			StarTypePcts = HostilePcts;
+		}
+		if (extraFertile && extraHostile) {
+			StarTypePcts = BothPcts;
 		}
         // distribution per MOO1 Official Strategy Guide
+		// Default: 30% Red, 25% Orange, 15% Yellow, 15% Blue, 10% White, 5% Purple
         float r = random();
-        if (r <= .30)
+        if (r <= StarTypePcts[0])
             return StarType.RED;
-        else if (r <= .55)
+        else if (r <= StarTypePcts[1])
             return StarType.ORANGE;
-        else if (r <= .70 + 3*rFertile) // modnar: extraFertile
+        else if (r <= StarTypePcts[2])
             return StarType.YELLOW;
-        else if (r <= .85 + rFertile) // modnar: extraFertile
+        else if (r <= StarTypePcts[3])
             return StarType.BLUE;
-        else if (r <= .95)
+        else if (r <= StarTypePcts[4])
             return StarType.WHITE;
         else
             return StarType.PURPLE;
@@ -530,17 +547,37 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
     public Color color(int i)  { return empireColors.get(i); }
     @Override
     public void randomizeColors() {
+		// modnar: add new colors
         empireColors.clear();
-        empireColors.add(new Color(9,131,214));   // blue
-        empireColors.add(new Color(132,57,20));   // brown
-        empireColors.add(new Color(0,166,81));    // green
-        empireColors.add(new Color(255,127,0));   // orange
-        empireColors.add(new Color(247,127,230)); // pink
-        empireColors.add(new Color(145,51,188));  // purple
-        empireColors.add(new Color(237,28,36));   // red
-        empireColors.add(new Color(56,232,186));  // teal
-        empireColors.add(new Color(247,229,60));  // yellow
-        empireColors.add(new Color(255,255,255)); // white
+		empireColors.add(new Color(237,28,36));   // red
+		empireColors.add(new Color(0,166,81));    // green
+		empireColors.add(new Color(247,229,60));  // yellow
+		empireColors.add(new Color(9,131,214));   // blue
+		empireColors.add(new Color(255,127,0));   // orange
+		empireColors.add(new Color(145,51,188));  // purple
+		empireColors.add(new Color(0,255,255));   // modnar: aqua
+		empireColors.add(new Color(255,0,255));   // modnar: fuchsia
+		empireColors.add(new Color(132,57,20));   // brown
+		empireColors.add(new Color(255,255,255)); // white
+		empireColors.add(new Color(0,255,0));     // modnar: lime
+		empireColors.add(new Color(128,128,128)); // modnar: grey
+		empireColors.add(new Color(220,160,220)); // modnar: plum*
+		empireColors.add(new Color(160,220,250)); // modnar: light blue*
+		empireColors.add(new Color(170,255,195)); // modnar: mint*
+		empireColors.add(new Color(128,128,0));   // modnar: olive**
+		//empireColors.add(new Color(255,215,180)); // modnar: apricot*
+		
+        //empireColors.add(new Color(9,131,214));   // blue
+        //empireColors.add(new Color(132,57,20));   // brown
+        //empireColors.add(new Color(0,166,81));    // green
+        //empireColors.add(new Color(255,127,0));   // orange
+        //empireColors.add(new Color(247,127,230)); // pink
+        //empireColors.add(new Color(145,51,188));  // purple
+        //empireColors.add(new Color(237,28,36));   // red
+        //empireColors.add(new Color(56,232,186));  // teal
+        //empireColors.add(new Color(247,229,60));  // yellow
+        //empireColors.add(new Color(255,255,255)); // white
+
         colors.clear();
         //primary color list
         List<Integer> list1 = new ArrayList<>();
@@ -550,13 +587,19 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
         list1.add(3);
         list1.add(4);
         list1.add(5);
-
+        list1.add(6);
+        list1.add(7);
+        list1.add(8);
+        list1.add(9);
+		
         //secondary color list
         List<Integer> list1a = new ArrayList<>();
-        list1a.add(6);
-        list1a.add(7);
-        list1a.add(8);
-        list1a.add(9);
+        list1a.add(10);
+        list1a.add(11);
+        list1a.add(12);
+        list1a.add(13);
+		list1a.add(14);
+        list1a.add(15);
 
         // start repeating the 10-color list for copies of races (up to 5 per race)
         List<Integer> list2 = new ArrayList<>(list1);
@@ -566,17 +609,18 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
         List<Integer> list5 = new ArrayList<>(list2);
             
         Collections.shuffle(list1);
-        Collections.shuffle(list1a);
+        //Collections.shuffle(list1a); // modnar: no need to shuffle list1a
         Collections.shuffle(list2);
         Collections.shuffle(list3);
         Collections.shuffle(list4);
         Collections.shuffle(list5);
+		// modnar: due to new colors, only add first 10 colors of shuffled lists, subList(0,10)
         colors.addAll(list1);
-        colors.addAll(list1a);
-        colors.addAll(list2);
-        colors.addAll(list3);
-        colors.addAll(list4);
-        colors.addAll(list5);
+        //colors.addAll(list1a); // modnar: no need to add list1a
+        colors.addAll(list2.subList(0,10));
+        colors.addAll(list3.subList(0,10));
+        colors.addAll(list4.subList(0,10));
+        colors.addAll(list5.subList(0,10));
     }
     private void initOpponentRaces() {
     }

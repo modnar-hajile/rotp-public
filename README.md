@@ -6,7 +6,7 @@ Remnants of the Precursors is a Java-based modernization of the original Master 
 
 This RotP MOD contains many gameplay additions/changes from the official game version.<br/>
 
-###Overview of MOD Features
+## Overview of MOD Features
 
 - [**coder111 governor mod**](https://github.com/coder111111/rotp-public-governor/)
 - Many **new map shapes**, and map Option select (**[A](https://reddit.com/r/rotp/comments/gz1oli/rotp_new_map_generation_shape_choices/), [B](https://reddit.com/r/rotp/comments/gzrzbe/rotp_new_map_generation_shapes_attractor_and/), [C](https://reddit.com/r/rotp/comments/h0bkv9/rotp_new_map_generation_shapes_more_fractals/), [D](https://reddit.com/r/rotp/comments/h109ch/rotp_new_map_generation_shapes_community_ideas/), [E](https://reddit.com/r/rotp/comments/h7v1ts/rotp_new_map_generation_shapes_galaxylike_shapes/), [F](https://reddit.com/r/rotp/comments/hya6d1/rotp_new_map_generation_shapes_additional_ui_for/), [G](https://reddit.com/r/rotp/comments/i07gqy/rotp_new_map_generation_shapes_player_input_text/), [H](https://reddit.com/r/rotp/comments/i8ervh/rotp_new_map_generation_shapes_maze_void_shuriken/), [I](https://reddit.com/r/rotp/comments/icnh89/rotp_new_map_generation_shape_bullseye/)**)
@@ -20,9 +20,10 @@ This RotP MOD contains many gameplay additions/changes from the official game ve
     - **Space Amoeba and Space Crystal delayed at easier difficulties**
 	- [**Colony Map Info**](https://i.imgur.com/4sKMtGo.png)
 	- [**Weapon Count Modifier**](https://i.imgur.com/YHfMdMG.png)
-	- **Option in Remnants.cfg to turn on/off Tech Trading** (for Dev-AI)
-    - **Option in Remnants.cfg to always make Star Gates appear in the Tech Tree**
-    - **Option in Remnants.cfg to modify Galaxy Planet Resource distribution**
+	- [**Additional Empire Colors**](https://i.imgur.com/3XH7OsF.png)
+	- [**Option in Remnants.cfg to turn on/off Tech Trading**](https://i.imgur.com/3jvz47c.png) (for Dev-AI)
+    - [**Option in Remnants.cfg to always make Star Gates appear in the Tech Tree**](https://i.imgur.com/3jvz47c.png)
+    - [**Option in Remnants.cfg to modify Galaxy Planet Resource distribution**](https://i.imgur.com/3jvz47c.png)
 	- **"Random Events: OFF" will also disallow Nebula generation on maps**
 - Many bug fixes
 
