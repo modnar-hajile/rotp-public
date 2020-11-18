@@ -171,11 +171,17 @@ public final class GameSession implements Base, Serializable {
     public float propulsionBonus()      { return 1.0f; }
     public float damageBonus()          { return 1.0f; }
     public float researchBonus()        { return 1.0f; }
+	// modnar: adjust tech cost from techCostPct in UserPreferences, limited to 50% to 500%
+	private float techAdjust = UserPreferences.techCostPct()/100.0f;
+	
     public float researchMapSizeAdjustment() {
         float stars = galaxy().numStarSystems();
         int races = options().selectedNumberOpponents()+2;
         float targetRatio = 12.0f;
-        return sqrt(stars/races/targetRatio);
+		// modnar: adjust tech cost from techCostPct in UserPreferences, limited to 50% to 500%
+		// change here rather than researchCostBase in MOO1GameOptions.java
+		// to bake tech cost into save file rather than having techCostPct being changable
+        return sqrt(stars/races/targetRatio) * techAdjust;
     }
     public void addShipsConstructed(ShipDesign design, int newCount) {
         if (!design.active()) 

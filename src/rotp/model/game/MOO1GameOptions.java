@@ -63,6 +63,8 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
 	// selectedMapOption, setMapOption
 	private String selectedMapOption;
 	// modnar: add planet distribution options from UserPreferences
+	private boolean mapNebula = UserPreferences.mapNebula();
+	private boolean randomTechStart = UserPreferences.randomTechStart();
 	private boolean extraFertile = UserPreferences.extraFertile();
 	private boolean extraHostile = UserPreferences.extraHostile();
 	private boolean extraRich = UserPreferences.extraRich();
@@ -70,7 +72,7 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
 	private boolean extraArtifact = UserPreferences.extraArtifact();
     private String selectedGameDifficulty;
     private int selectedNumberOpponents;
-    private boolean communityAI = false;
+    private boolean communityAI = true; // modnar: default to communityAI = true
     private boolean disableRandomEvents = false;
 
     private transient GalaxyShape galaxyShape;
@@ -295,8 +297,8 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
         }
         */
         int n = this.numberStarSystems();
-		// modnar: disable nebula formation with the disableRandomEvents map option
-		if (disableRandomEvents()){
+		// modnar: disable nebula formation with mapNebula in UserPreferences
+		if (!mapNebula){
 			return 0;
 		}
         return roll(n/50, n/25); // modnar: change nebula number for testing
@@ -763,6 +765,10 @@ public class MOO1GameOptions implements Base, IGameOptions, Serializable {
 		float rArtifact = 1.0f;
 		if (extraArtifact) {
 			rArtifact = 1.5f;
+		}
+		// modnar: no Artifact planets if randomTechStart selected
+		if (randomTechStart) {
+			rArtifact *= 0.0f;
 		}
         switch(p.type().key()) {
             case PlanetType.STEPPE:

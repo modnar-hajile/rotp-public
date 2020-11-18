@@ -46,6 +46,7 @@ import rotp.ui.RotPUI;
 import rotp.ui.notifications.GNNNotification;
 import rotp.ui.notifications.InvadersKilledAlert;
 import rotp.ui.notifications.TransportsKilledAlert;
+import rotp.ui.UserPreferences; // modnar: add challengeMode option to give AI more initial resources
 import rotp.util.Base;
 
 public final class Colony implements Base, IMappedObject, Serializable {
@@ -333,15 +334,33 @@ public final class Colony implements Base, IMappedObject, Serializable {
         }
     }
 
-    public void setHomeworldValues() {
+    // modnar: add challengeMode option from UserPreferences to give AI more initial resources
+	private boolean challengeMode = UserPreferences.challengeMode();
+	
+	public void setHomeworldValues() {
+        Empire emp = empire();
+		
+		// modnar: normal resources for player or non-challengeMode
+		if (emp.isPlayer() || !challengeMode) {
         setPopulation(50);
         previousPopulation = population();
         industry().factories(30);
         industry().previousFactories(30);
 
-        Empire emp = empire();
         galaxy().ships.buildShips(emp.id, starSystem().id, empire().shipLab().scoutDesign().id(), 2);
         galaxy().ships.buildShips(emp.id, starSystem().id, empire().shipLab().colonyDesign().id(), 1);
+		}
+		// modnar: add extra starting resources, if challengeMode and AI
+		// double initial ships, increase pop/factories to approximately double initial production
+		if (emp.isAI() && challengeMode) {
+        setPopulation(80);
+        previousPopulation = population();
+        industry().factories(80);
+        industry().previousFactories(80);
+
+        galaxy().ships.buildShips(emp.id, starSystem().id, empire().shipLab().scoutDesign().id(), 4);
+        galaxy().ships.buildShips(emp.id, starSystem().id, empire().shipLab().colonyDesign().id(), 2);
+		}
     }
 
     public void spreadRebellion() {

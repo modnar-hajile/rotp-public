@@ -80,7 +80,7 @@ public interface IGameOptions {
     public static final String DIFFICULTY_HARDEST = "SETUP_DIFFICULTY_HARDEST";
 
     public default boolean isAutoPlay()          { return false; }
-    public default boolean communityAI()         { return false; }
+    public default boolean communityAI()         { return true; } // modnar: default to communityAI = true
     public default void communityAI(boolean b)   { }
     public default int maxOpponents()            { return MAX_OPPONENTS; }
     public String name();

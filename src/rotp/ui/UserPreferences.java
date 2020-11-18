@@ -43,8 +43,12 @@ public class UserPreferences {
     private static boolean playSounds = true;
     private static boolean displayYear = true;
     private static boolean textures = true;
-	private static boolean techTrade = true; // modnar: add option to turn tech trading off
+	private static boolean techTrade = true; // modnar: add option to turn tech trading off (Dev-AI only)
+	private static int techCostPct = 100; // modnar: add option to adjust tech cost (50% to 500%)
+	private static boolean mapNebula = true; // modnar: add option to generate nebula on galaxy map
 	private static boolean alwaysStarGates = false; // modnar: add option to always have Star Gates tech
+	private static boolean challengeMode = false; // modnar: add option to give AI more initial resources
+	private static boolean randomTechStart = false; // modnar: add option to start all Empires with 2 techs, no Artifacts
 	private static boolean extraFertile = false; // modnar: add option to generate more hospitable planets
 	private static boolean extraHostile = false; // modnar: add option to generate more hostile planets
 	private static boolean extraRich = false; // modnar: add option to generate more Rich planets
@@ -67,8 +71,11 @@ public class UserPreferences {
     public static boolean textures()        { return textures; }
     public static void toggleTextures()     { textures = !textures; save();  }
 	
-	public static boolean techTrade()        { return techTrade; } // modnar: add option to turn tech trading off
+	public static boolean techTrade()        { return techTrade; } // modnar: add option to turn tech trading off (Dev-AI only)
+	public static boolean mapNebula()        { return mapNebula; } // modnar: add option to generate nebula on galaxy map
 	public static boolean alwaysStarGates()  { return alwaysStarGates; } // modnar: add option to always have Star Gates tech
+	public static boolean challengeMode()    { return challengeMode; } // modnar: add option to give AI more initial resources
+	public static boolean randomTechStart()  { return randomTechStart; } // modnar: add option to start all Empires with 2 techs, no Artifacts
 	public static boolean extraFertile()     { return extraFertile; } // modnar: add option to generate more hospitable planets
 	public static boolean extraHostile()     { return extraHostile; } // modnar: add option to generate more hostile planets
 	public static boolean extraRich()        { return extraRich; } // modnar: add option to generate more Rich planets
@@ -77,6 +84,9 @@ public class UserPreferences {
 	
     public static int screenSizePct()       { return screenSizePct; }
     public static void screenSizePct(int i) { setScreenSizePct(i); }
+	
+	public static int techCostPct()         { return techCostPct; } // modnar: add option to adjust tech cost (50% to 500%)
+    public static void techCostPct(int i)   { setTechCostPct(i); } // modnar: add option to adjust tech cost (50% to 500%)
 
     public static void toggleYearDisplay()    { displayYear = !displayYear; save(); }
     public static boolean displayYear()       { return displayYear; }
@@ -123,8 +133,12 @@ public class UserPreferences {
             out.println(keyFormat("SCREEN_SIZE_PCT")+ screenSizePct());
             out.println(keyFormat("UI_TEXTURES")+ yesOrNo(textures));
             out.println(keyFormat("UI_TEXTURE_LEVEL")+(int) (uiTexturePct()*100));
-			out.println(keyFormat("TECH_TRADE")+ yesOrNo(techTrade)); // modnar: add option to turn tech trading off
+			out.println(keyFormat("TECH_TRADE")+ yesOrNo(techTrade)); // modnar: add option to turn tech trading off (Dev-AI only)
+			out.println(keyFormat("TECH_COST_PCT")+ techCostPct()); // modnar: add option to adjust tech cost (50% to 500%)
+			out.println(keyFormat("MAP_NEBULA")+ yesOrNo(mapNebula)); // modnar: add option to generate nebula on galaxy map
 			out.println(keyFormat("ALWAYS_STAR_GATES")+ yesOrNo(alwaysStarGates)); // modnar: add option to always have Star Gates tech
+			out.println(keyFormat("CHALLENGE_MODE")+ yesOrNo(challengeMode)); // modnar: add option to give AI more initial resources
+			out.println(keyFormat("RANDOM_TECH_START")+ yesOrNo(randomTechStart)); // modnar: add option to start all Empires with 2 techs, no Artifacts
 			out.println(keyFormat("EXTRA_FERTILE")+ yesOrNo(extraFertile)); // modnar: add option to generate more hospitable planets
 			out.println(keyFormat("EXTRA_HOSTILE")+ yesOrNo(extraHostile)); // modnar: add option to generate more hostile planets
 			out.println(keyFormat("EXTRA_RICH")+ yesOrNo(extraRich)); // modnar: add option to generate more Rich planets
@@ -165,8 +179,12 @@ public class UserPreferences {
             case "SCREEN_SIZE_PCT": screenSizePct(Integer.valueOf(val)); return;
             case "UI_TEXTURES":  textures = yesOrNo(val); return;
             case "UI_TEXTURE_LEVEL": uiTexturePct(Integer.valueOf(val)); return;
-			case "TECH_TRADE":   techTrade = yesOrNo(val); return; // modnar: add option to turn tech trading off
+			case "TECH_TRADE":   techTrade = yesOrNo(val); return; // modnar: add option to turn tech trading off (Dev-AI only)
+			case "TECH_COST_PCT": techCostPct(Integer.valueOf(val)); return; // modnar: add option to adjust tech cost (50% to 500%)
+			case "MAP_NEBULA":   mapNebula = yesOrNo(val); return; // modnar: add option to generate nebula on galaxy map
 			case "ALWAYS_STAR_GATES": alwaysStarGates = yesOrNo(val); return; // modnar: add option to always have Star Gates tech
+			case "CHALLENGE_MODE": challengeMode = yesOrNo(val); return; // modnar: add option to give AI more initial resources
+			case "RANDOM_TECH_START": randomTechStart = yesOrNo(val); return; // modnar: add option to start all Empires with 2 techs, no Artifacts
 			case "EXTRA_FERTILE":   extraFertile = yesOrNo(val); return; // modnar: add option to generate more hospitable planets
 			case "EXTRA_HOSTILE":   extraHostile = yesOrNo(val); return; // modnar: add option to generate more hostile planets
 			case "EXTRA_RICH":   extraRich = yesOrNo(val); return; // modnar: add option to generate more Rich planets
@@ -201,6 +219,10 @@ public class UserPreferences {
         int oldSize = screenSizePct;
         setScreenSizePct(screenSizePct+5);
         return oldSize != screenSizePct;
+    }
+	// modnar: adjust tech cost, limit to 50% to 500%
+	private static void setTechCostPct(int i) {
+        techCostPct = Math.max(50,Math.min(i,500));
     }
     public static void graphicsLevel(String s) {
         String level = s.toUpperCase();

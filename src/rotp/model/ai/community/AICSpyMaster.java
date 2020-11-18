@@ -70,13 +70,21 @@ public class AICSpyMaster implements Base, SpyMaster {
         int maxSpiesNeeded;
 
         if (v.embassy().finalWar())
-            maxSpiesNeeded = 3;
+			// modnar: reduce spies needed for large number of active empires
+            maxSpiesNeeded = galaxy().numActiveEmpires() > 20 ? 2 : 3;
         else if (v.embassy().war())
-            maxSpiesNeeded = 2;
-        else if (v.embassy().noTreaty())
-            maxSpiesNeeded = 1;
+			// modnar: reduce spies needed for large number of active empires
+            maxSpiesNeeded = galaxy().numActiveEmpires() > 20 ? 1 : 2;
+        else if (v.embassy().noTreaty()) {
+			// modnar: check if empire is in range or not
+            if (v.empire().inEconomicRange(id(empire)))
+				maxSpiesNeeded = 1;
+			else
+				maxSpiesNeeded = 0; // modnar: no spies if not in range
+		}
         else if (v.embassy().pact())
-            maxSpiesNeeded = 1;
+			// modnar: reduce spies needed for large number of active empires
+            maxSpiesNeeded = galaxy().numActiveEmpires() > 20 ? 0 : 1;
         else   // unity() or alliance()
             maxSpiesNeeded = 0;
 

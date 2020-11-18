@@ -87,6 +87,8 @@ public final class SetupRaceUI extends BasePanel implements MouseListener, Mouse
         leaderBox.setBounds(x-s1, y-s59, FIELD_W+s2, FIELD_H+s2);
         homeWorld.setCaretPosition(homeWorld.getText().length());
         homeWorld.setLocation(x, y-s100-s19);
+		// modnar: test hover text
+		homeWorld.setToolTipText("<html> Homeworld Name is used as <br> the Galaxy Map when selecting <br> Map Shape [Text] [Option-C]. <br><br> (Unicode characters allowed)");
         homeWorldBox.setBounds(x-s1, y-scaled(119), FIELD_W+s2, FIELD_H+s2);
 
         super.paintComponent(g0);
