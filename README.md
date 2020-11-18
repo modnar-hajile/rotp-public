@@ -21,10 +21,7 @@ This RotP MOD contains many gameplay additions/changes from the official game ve
 	- [**Colony Map Info**](https://i.imgur.com/4sKMtGo.png)
 	- [**Weapon Count Modifier**](https://i.imgur.com/YHfMdMG.png)
 	- [**Additional Empire Colors**](https://i.imgur.com/3XH7OsF.png)
-	- [**Option in Remnants.cfg to turn on/off Tech Trading**](https://i.imgur.com/3jvz47c.png) (for Dev-AI)
-    - [**Option in Remnants.cfg to always make Star Gates appear in the Tech Tree**](https://i.imgur.com/3jvz47c.png)
-    - [**Option in Remnants.cfg to modify Galaxy Planet Resource distribution**](https://i.imgur.com/3jvz47c.png)
-	- **"Random Events: OFF" will also disallow Nebula generation on maps**
+	- [**Options in Remnants.cfg for New Game Modes and other Map Generation changes**](https://i.imgur.com/39aRl16.png)
 - Many bug fixes
 
 # Links
