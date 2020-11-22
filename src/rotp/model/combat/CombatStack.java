@@ -94,7 +94,12 @@ public class CombatStack implements Base {
     public float initiativeRank() {
         if (cloaked)
             return 200+initiative();
-        else if (canTeleport)
+        // modnar: replace canTeleport from this 'if' check
+		// In ShipCombatManager.java, the CombatStack.INITIATIVE comparison/sort in setupBattle
+		// is called before currentStack.beginTurn(). So while beginTurn() in this file
+		// sets the correct value for canTeleport, it won't be used for initiative ordering.
+		// This change correctly gives boosted turn/initiative order for ship stacks with teleporters.
+        else if (hasTeleporting() && !mgr.interdiction())
             return 100+initiative();
         else
             return initiative();
@@ -102,6 +107,7 @@ public class CombatStack implements Base {
     public boolean isShip()             { return false; }
     public boolean isColony()           { return false; }
     public boolean isMonster()          { return false; }
+	public boolean isNeutralShip()      { return false; } // modnar: add new type, for SpacePirates scan display
     public boolean isPlayer()           { return (empire != null) && empire.isPlayer(); }
     public boolean isPlayerControlled() { return (empire != null) && empire.isPlayerControlled(); }
     public boolean isMissile()          { return false; }

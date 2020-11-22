@@ -15,13 +15,15 @@ This RotP MOD contains many gameplay additions/changes from the official game ve
 - [**Re-colored ships**](https://reddit.com/r/rotp/comments/gli5z5/rotp_recolored_ship_design_sets_download/)
 - [**Three new fast late-game Ship Engines**](https://reddit.com/r/rotp/comments/iwei9l/rotp_modnar_mod_new_fast_ship_engine_techs/) (useful on very large maps)
 - [**5 New Playable Races**](https://i.imgur.com/K1KRTzh.jpg)
+- [**Options in Remnants.cfg for New Game Modes and other Map Generation changes**](https://i.imgur.com/39aRl16.png)
+- [**New Space Pirates Random Event**](https://i.imgur.com/jBu21Pt.png)
 - Quality of life improvements
     - **Increased Empire Homeworld Separation** (**10 ly**, up from 6 ly in the official version)
     - **Space Amoeba and Space Crystal delayed at easier difficulties**
 	- [**Colony Map Info**](https://i.imgur.com/4sKMtGo.png)
 	- [**Weapon Count Modifier**](https://i.imgur.com/YHfMdMG.png)
 	- [**Additional Empire Colors**](https://i.imgur.com/3XH7OsF.png)
-	- [**Options in Remnants.cfg for New Game Modes and other Map Generation changes**](https://i.imgur.com/39aRl16.png)
+	- Repeatable Random Events.
 - Many bug fixes
 
 # Links

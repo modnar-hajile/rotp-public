@@ -81,6 +81,8 @@ COLONY_NAME_4                     | Distant %1
 // Space Monster Names
 SPACE_AMOEBA                      | Space Amoeba
 SPACE_CRYSTAL                     | Space Crystal
+// modnar: add space pirate random event
+SPACE_PIRATES                     | Space Pirates
 
 // Personality types (adjective)
 LEADER_ERRATIC                    | Erratic
@@ -141,6 +143,11 @@ EVENT_SPACE_CRYSTAL               | A gigantic crystalline entity called the "Sp
 EVENT_SPACE_CRYSTAL_1             | A gigantic crystalline entity called the "Space Crystal" has been spotted approaching the uncolonized [system] system.
 EVENT_SPACE_CRYSTAL_2             | The Space Crystal has completely destroyed all life on the [race] colony in the [system] system.
 EVENT_SPACE_CRYSTAL_3             | The Space Crystal was destroyed by [race] defenders in the [system] system.
+// modnar: add space pirate random event
+EVENT_SPACE_PIRATES               | A fleet of marauding Space Pirates have been spotted approaching the [system] system. Defending [race] colonists and fleets are preparing for the worst.
+EVENT_SPACE_PIRATES_1             | A fleet of marauding Space Pirates have been spotted approaching the uncolonized [system] system.
+EVENT_SPACE_PIRATES_2             | The dreaded Space Pirates have ravaged the population and pillaged all industry on the [race] colony in the [system] system, devastating the local ecology.
+EVENT_SPACE_PIRATES_3             | The Space Pirate fleet was destroyed by [race] defenders in the [system] system.
 
 SYSEVENT_HOMEWORLD                | Homeworld for the %1.
 SYSEVENT_SCOUTED                  | First scouted by the %1.
@@ -355,6 +362,8 @@ MAIN_PLANET_EVENT_PLAGUE          | Plague
 MAIN_PLANET_EVENT_SUPERNOVA       | Supernova
 MAIN_PLANET_EVENT_AMOEBA          | Space Amoeba
 MAIN_PLANET_EVENT_CRYSTAL         | Space Crystal
+// modnar: add space pirate random event
+MAIN_PLANET_EVENT_PIRATES         | Space Pirates
 MAIN_ADVANCING_YEAR               | Advancing to Year  %1...
 MAIN_ADVANCING_TURN               | Advancing to Turn  %1...
 TURN_SAVING                       | Saving Game
@@ -1097,6 +1106,8 @@ SHIP_COMBAT_PAUSE_BATTLE          | Pause Battle
 SHIP_COMBAT_EXIT                  | Exit
 SHIP_COMBAT_COUNT_NAME            | %1  %2
 SHIP_COMBAT_MONSTER_TARGET        | Space monster targeted.
+// modnar: add space pirate random event
+SHIP_COMBAT_PIRATES_TARGET        | Space Pirates targeted.
 SHIP_COMBAT_ENEMY_TARGET          | Enemy fleet targeted.
 SHIP_COMBAT_ALLY_TARGET           | Friendly fleet targeted.
 SHIP_COMBAT_ENEMY_COLONY          | Enemy planet targeted.
@@ -1409,6 +1420,8 @@ SYSTEMS_STATUS_PLAGUE             | The colony is experiencing a global plague t
 SYSTEMS_STATUS_PIRACY             | Pirates are affecting trade routes in this system.
 SYSTEMS_STATUS_SPACE_AMOEBA       | A giant space amoeba is heading towards this system.
 SYSTEMS_STATUS_SPACE_CRYSTAL      | A gigantic space crystal is heading towards this system.
+// modnar: add space pirate random event
+SYSTEMS_STATUS_SPACE_PIRATES      | A fleet of space pirates are headed towards this system.
 
 
 // =========================================================================
