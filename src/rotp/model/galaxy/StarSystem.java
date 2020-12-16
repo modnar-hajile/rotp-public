@@ -48,14 +48,18 @@ import rotp.ui.BasePanel;
 import rotp.ui.main.GalaxyMapPanel;
 import rotp.ui.sprites.ShipRelocationSprite;
 import rotp.ui.sprites.SystemTransportSprite;
+import rotp.ui.UserPreferences; // modnar: use for shield display selection
 import rotp.util.Base;
 
 public class StarSystem implements Base, Sprite, IMappedObject, Serializable {
     private static final long serialVersionUID = 1L;
-    private static final Color shield5C = new Color(64,64,64);
-    private static final Color shield10C = new Color(24,24,96);
-    private static final Color shield15C = new Color(24,96,24);
-    private static final Color shield20C = new Color(160,160,48);
+	// modnar: change shield colors to color-coded loot rarity
+	// shield-5 --> shield-10 --> shield-15 --> shield-20
+	//    green -->      blue -->    purple --> orange
+    private static final Color shield5C = new Color(32,255,0); // original: Color(64,64,64)
+    private static final Color shield10C = new Color(0,112,224); // original: Color(24,24,96)
+    private static final Color shield15C = new Color(160,48,240); // original: Color(24,96,24)
+    private static final Color shield20C = new Color(255,128,0); // original: Color(160,160,48)
     private static final Color selectionC = new Color(160,160,0);
     public static final int NULL_ID = -1;
 
@@ -420,7 +424,7 @@ public class StarSystem implements Base, Sprite, IMappedObject, Serializable {
     }
     private int drawRadius() {
         if (drawRadius == 0)
-            drawRadius = scaled(roll(4,6));
+            drawRadius = scaled(roll(8,9)); // modnar: larger star/flare
         return drawRadius;
     }
     @Override
@@ -475,8 +479,9 @@ public class StarSystem implements Base, Sprite, IMappedObject, Serializable {
             drawHovering(g2, map, x0, y0);
 
         // draw shield?
+		// modnar: change shield size to scale with zoom, original: BasePanel.s15   map.scale(0.25f)
         if (map.parent().drawShield(this))
-            drawShield(g2, pl.sv.shieldLevel(id), x0, y0, BasePanel.s15);
+            drawShield(g2, pl.sv.shieldLevel(id), x0, y0, map.scale(0.25f));
 
         // draw stargate icon (AFTER selection box)
         if (pl.sv.isColonized(id) && pl.sv.hasStargate(id)) {
@@ -729,41 +734,81 @@ public class StarSystem implements Base, Sprite, IMappedObject, Serializable {
             return;
 
         Stroke prevStroke = g.getStroke();
-        Stroke shieldStroke = BasePanel.stroke3;
-        Stroke shieldBorderStroke = BasePanel.stroke5;
+        Stroke shieldStroke = BasePanel.stroke4; // modnar: thicker shield strokes
+        Stroke shieldBorderStroke = BasePanel.stroke7; // modnar: thicker shield strokes
         g.setStroke(shieldStroke);
         switch (shieldLevel) {
             case 5:
-                g.setColor(Color.black);
-                g.setStroke(shieldBorderStroke);
-                g.drawArc(x-r, y-r, r+r, r+r, 30, 120);
-                g.setColor(shield5C);
-                g.setStroke(shieldStroke);
-                g.drawArc(x-r, y-r, r+r, r+r, 30, 120);
+				if (UserPreferences.displayYear()) { // modnar: adjust shield display type with year/turn display
+					g.setColor(Color.black);
+					g.setStroke(shieldBorderStroke);
+					g.drawArc(x-r, y-r, r+r, r+r, 30, 120);
+					g.setColor(shield5C);
+					g.setStroke(shieldStroke);
+					g.drawArc(x-r, y-r, r+r, r+r, 30, 120);
+				}
+				else { // modnar: full circle for all shields, changing thickness
+					g.setColor(Color.black);
+					g.setStroke(BasePanel.stroke4);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+					g.setColor(shield5C);
+					g.setStroke(BasePanel.stroke1);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+				}
                 break;
             case 10:
-                g.setColor(Color.black);
-                g.setStroke(shieldBorderStroke);
-                g.drawArc(x-r, y-r, r+r, r+r,0, 180);
-                g.setColor(shield10C);
-                g.setStroke(shieldStroke);
-                g.drawArc(x-r, y-r, r+r, r+r,0, 180);
+                if (UserPreferences.displayYear()) { // modnar: adjust shield display type with year/turn display
+					g.setColor(Color.black);
+					g.setStroke(shieldBorderStroke);
+					g.drawArc(x-r, y-r, r+r, r+r,0, 180);
+					g.setColor(shield10C);
+					g.setStroke(shieldStroke);
+					g.drawArc(x-r, y-r, r+r, r+r,0, 180);
+				}
+				else { // modnar: full circle for all shields, changing thickness
+					g.setColor(Color.black);
+					g.setStroke(BasePanel.stroke6);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+					g.setColor(shield10C);
+					g.setStroke(BasePanel.stroke3);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+				}
                 break;
             case 15:
-                g.setColor(Color.black);
-                g.setStroke(shieldBorderStroke);
-                g.drawArc(x-r, y-r, r+r, r+r, 330, 240);
-                g.setColor(shield15C);
-                g.setStroke(shieldStroke);
-                g.drawArc(x-r, y-r, r+r, r+r, 330, 240);
+                if (UserPreferences.displayYear()) { // modnar: adjust shield display type with year/turn display
+					g.setColor(Color.black);
+					g.setStroke(shieldBorderStroke);
+					g.drawArc(x-r, y-r, r+r, r+r, 330, 240);
+					g.setColor(shield15C);
+					g.setStroke(shieldStroke);
+					g.drawArc(x-r, y-r, r+r, r+r, 330, 240);
+				}
+				else { // modnar: full circle for all shields, changing thickness
+					g.setColor(Color.black);
+					g.setStroke(BasePanel.stroke8);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+					g.setColor(shield15C);
+					g.setStroke(BasePanel.stroke5);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+				}
                 break;
             case 20:
-                g.setColor(Color.black);
-                g.setStroke(shieldBorderStroke);
-                g.drawArc(x-r, y-r, r+r, r+r, 330, 240);
-                g.setColor(shield20C);
-                g.setStroke(shieldStroke);
-                g.drawArc(x-r, y-r, r+r, r+r, 330, 240);
+                if (UserPreferences.displayYear()) { // modnar: adjust shield display type with year/turn display
+					g.setColor(Color.black);
+					g.setStroke(shieldBorderStroke);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360); // modnar: make shield-20 full circle
+					g.setColor(shield20C);
+					g.setStroke(shieldStroke);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360); // modnar: make shield-20 full circle
+				}
+				else { // modnar: full circle for all shields, changing thickness
+					g.setColor(Color.black);
+					g.setStroke(BasePanel.stroke10);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+					g.setColor(shield20C);
+					g.setStroke(BasePanel.stroke7);
+					g.drawArc(x-r, y-r, r+r, r+r, 0, 360);
+				}
                 break;
         }
         g.setStroke(prevStroke);

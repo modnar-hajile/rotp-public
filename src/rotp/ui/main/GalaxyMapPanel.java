@@ -304,9 +304,12 @@ public class GalaxyMapPanel extends BasePanel implements ActionListener, MouseLi
 
         setScale(scaleY());
         //log("map scale:", fmt(scaleX(),2), "@", fmt(scaleY(),2), "  center:", fmt(center().x(),2), "@", fmt(center().y(),2), "  x-rng:", fmt(mapMinX()), "-", fmt(mapMaxX(),2), "  y-rng:", fmt(mapMinY()), "-", fmt(mapMaxY(),2));
-        drawBackground(g2);
+        //drawBackground(g2); // modnar: not needed due to drawShipRanges below
         if ((scaleX() < 200) && showStars())
             drawBackgroundStars(g2);
+		// modnar: cover starry background with drawShipRanges
+		drawShipRanges(g2);
+		
         drawGrids(g2);
 
         drawNebulas(g2);
@@ -395,6 +398,19 @@ public class GalaxyMapPanel extends BasePanel implements ActionListener, MouseLi
             g.drawImage(rangeMapBuffer,0,0,null);
         }
     }
+	// modnar: make regular ship fuel range cover starry background
+	private void drawShipRanges(Graphics2D g) {
+		if (showShipRanges()) {
+			if (redrawRangeMap) {
+                //redrawRangeMap = false;
+				//Graphics2D g0 = (Graphics2D) rangeMapBuffer.getGraphics();
+				Graphics2D g0 = (Graphics2D) g.create(); // use create() to not leave afterimage
+				setFontHints(g0);
+				drawExtendedRangeDisplay(g0);
+				drawOwnershipDisplay(g0);
+			}
+        }
+	}
 
     private void drawGrids(Graphics2D g) {
         if (showGridCircular) {
@@ -487,8 +503,8 @@ public class GalaxyMapPanel extends BasePanel implements ActionListener, MouseLi
         g.setColor(extendedBorder);
         g.setStroke(new BasicStroke(4));
         g.draw(clusterArea);   
-        g.setColor(emptyBackground);
-        g.fill(clusterArea);
+        g.setColor(emptyBackground); // modnar: comment out to make extended range not block starry background
+        g.fill(clusterArea); // modnar: comment out to make extended range not block starry background
         clusterArea.reset();
         
         

@@ -23,6 +23,9 @@ This RotP MOD contains many gameplay additions/changes from the official game ve
 	- [**Colony Map Info**](https://i.imgur.com/4sKMtGo.png)
 	- [**Weapon Count Modifier**](https://i.imgur.com/YHfMdMG.png)
 	- [**Additional Empire Colors**](https://i.imgur.com/3XH7OsF.png)
+	- [**Improved Rendering Quality for In-Game Art**](https://i.imgur.com/Yinhuw5.png)
+	- [**Colony Shield Display on Map**](https://i.imgur.com/QBUHiV4.png)
+	- [**Empire Range Display Blocks Background Stars, Larger Playable Stars**](https://i.imgur.com/Svbk2fv.png)
 	- Repeatable Random Events.
 - Many bug fixes
 

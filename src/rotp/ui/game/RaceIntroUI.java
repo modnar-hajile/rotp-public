@@ -34,6 +34,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.RenderingHints; // modnar: needed for adding RenderingHints
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -197,7 +198,13 @@ public class RaceIntroUI extends BasePanel implements MouseListener {
         g.setColor(Color.black);
         g.fillRect(0,0, w, h);
         drawStars(g);
-        g.drawImage(fadeLab(w,h), 0, 0, w, h, this);
+		// modnar: use (slightly) better sampling
+		int w0 = player().race().laboratory().getWidth();
+        int h0 = player().race().laboratory().getHeight();
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.drawImage(fadeLab(w0,h0), 0, 0, w, h, 0, 0, w0, h0, this);
+        //g.drawImage(fadeLab(w,h), 0, 0, w, h, this);
         drawHomeStar(g);
         drawSystemName(g);
         drawIntroductionTitle(g);

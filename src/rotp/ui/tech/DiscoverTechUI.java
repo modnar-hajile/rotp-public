@@ -31,6 +31,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.RenderingHints; // modnar: needed for adding RenderingHints
 import java.util.List;
 import rotp.model.empires.Empire;
 import rotp.model.empires.EspionageMission;
@@ -213,6 +214,12 @@ public class DiscoverTechUI extends FadeInPanel implements MouseListener, MouseM
     }
     public void paintToImage(Image dataImg) {
         Graphics2D g = (Graphics2D) dataImg.getGraphics();
+		// modnar: use (slightly) better upsampling
+		// VALUE_INTERPOLATION_BICUBIC too slow for holoImg
+		//g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		//g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		// modnar: super.paintComponent seems to work fine here for rendering quality, same as SelectNewTechUI.java
+		super.paintComponent(g);
 
         Image techImg = null;
         Image raceImg;

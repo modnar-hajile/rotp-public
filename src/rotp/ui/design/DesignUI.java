@@ -406,8 +406,11 @@ public class DesignUI extends BasePanel {
         private void drawShip(Graphics g) {
             int boxH = getHeight()-s10;
             int boxW = boxH*6/5;
-            g.setColor(ShipBattleUI.spaceBlue);
-            g.fillRect(s5,s5,boxW,boxH);
+			// modnar: Graphics2D to use RenderingHints
+			// NOTE: drawing various small ship designs on right-side of Design screen
+			Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(ShipBattleUI.spaceBlue);
+            g2.fillRect(s5,s5,boxW,boxH);
 
             ShipDesign des = shipDesign();
             if (!des.active())
@@ -425,7 +428,24 @@ public class DesignUI extends BasePanel {
 
             int x1 = (boxW - w1) / 2;
             int y1 = (boxH - h1) / 2;
-            g.drawImage(img, x1+s5, y1+s5, x1+w1, y1+h1, 0, 0, w0, h0, this);
+			
+			// modnar: one-step progressive image downscaling, slightly better
+			// there should be better methods
+			if (scale < 0.5) {
+				BufferedImage tmp = new BufferedImage(w0/2, h0/2, BufferedImage.TYPE_INT_ARGB);
+				Graphics2D g2D = tmp.createGraphics();
+				g2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g2D.drawImage(img, 0, 0, w0/2, h0/2, 0, 0, w0, h0, this);
+				g2D.dispose();
+				img = tmp;
+				w0 = img.getWidth(null);
+				h0 = img.getHeight(null);
+				scale = scale*2;
+			}
+			// modnar: use (slightly) better downsampling
+			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.drawImage(img, x1+s5, y1+s5, x1+w1, y1+h1, 0, 0, w0, h0, this);
         }
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {}
@@ -542,7 +562,31 @@ public class DesignUI extends BasePanel {
                 int h1 = (int)(scale*h0);
                 BufferedImage resizedImg = new BufferedImage(w1,h1, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g = resizedImg.createGraphics();
-                g.drawImage(img, 0, 0, w1, h1, null);
+				// modnar: one-step progressive image downscaling, mostly for Sakkra ships (higher-res image files)
+				// there should be better methods
+				if (scale < 0.5) {
+					BufferedImage tmp = new BufferedImage(w0/2, h0/2, BufferedImage.TYPE_INT_ARGB);
+					Graphics2D g2D = tmp.createGraphics();
+					g2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+					//g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+					g2D.drawImage(img, 0, 0, w0/2, h0/2, 0, 0, w0, h0, this);
+					g2D.dispose();
+					img = tmp;
+					w0 = img.getWidth(null);
+					h0 = img.getHeight(null);
+					scale = scale*2;
+				}
+				// modnar: use (slightly) better downsampling
+				// NOTE: drawing current ship design on upper-left of Design screen
+				// https://docs.oracle.com/javase/tutorial/2d/advanced/quality.html
+				// should be possible to be even better
+                //g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                //g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY); 
+                //g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+                g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+				g.drawImage(img, 0, 0, w1, h1, 0, 0, w0, h0, null);
+                //g.drawImage(img, 0, 0, w1, h1, null);
                 g.dispose();
                 shipImages.add(resizedImg);
             }
